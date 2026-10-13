@@ -143,53 +143,83 @@ def run(argv=None):
         return
     started = time.monotonic()
     route_name = 'root'
+    query = parse_qs((argv[2] if len(argv) > 2 else '').lstrip('?'), keep_blank_values=True)
+    action = query.get('action', [''])[0]
+    row = query.get('row', [''])[0]
+    section = query.get('section', [''])[0]
+    is_playback = action in ('play-local', 'play-umbrella')
+    playback_path = None
     try:
-        xbmcplugin.setContent(handle, 'videos')
-        query = parse_qs((argv[2] if len(argv) > 2 else '').lstrip('?'), keep_blank_values=False)
-        action = query.get('action', [''])[0]
-        row = query.get('row', [''])[0]
-        section = query.get('section', [''])[0]
-        if row in ROW_KEYS + ('frozen', 'probe') and not action and not section:
-            route_name = row
-            _listing(handle, base, row)
-        elif section in sections.SECTION_LABELS and not action and not row:
-            route_name = 'section'
-            _section(handle, base, section)
-        elif action == 'setup' and not row and not section:
-            route_name = 'setup'
-            preset = query.get('preset', [''])[0]
-            success = profile.activate(ADDON_PATH, preset)
-            _message('Callen Prime CP03',
-                     'Demo activated for this Kodi profile.' if success else
-                     'Profile scope ambiguous or unavailable. Neutral demo only. See setup guide.')
-        elif action == 'status' and not row and not section:
-            route_name = 'status'
-            scope = profile.current_scope()
-            snapshot = profile.read_snapshot()
-            status = ('Profile scope: ' + ('verified' if scope else 'unavailable') +
-                      '\nDemo preset: ' + (snapshot['preset'] if snapshot else 'neutral (safe fallback)'))
-            _message('Callen Prime CP03', status)
-        elif action == 'my-list' and not row and not section:
-            route_name = 'my-list'
-            _message('My List is not connected',
-                     'CP03 is an offline, fictional demo. Personal lists and Trakt are not active.')
-        elif action == 'details':
-            route_name = 'details'
-            media_id = query.get('item', [''])[0]
-            item = (rows.find_item(ADDON_PATH, row, media_id) if row in ROW_KEYS + ('frozen', 'probe') and not section
-                    else sections.find_item(ADDON_PATH, section, media_id) if section in sections.SECTION_LABELS and not row
-                    else None)
-            _message('Callen Prime | Title Details (No Playback)', presentation.detail_lines(item))
-        elif not action and not row and not section:
-            _root(handle, base)
-        # Unknown queries intentionally yield an empty successfully closed directory.
+        if is_playback:
+            route_name = 'playback'  # Never write selected paths/IDs to log.
+            # No url, profile, item or hidden caller parameters can start playback.
+            if set(query) == {'action'} and len(query['action']) == 1:
+                playback_path = _playback_target(action)
+        else:
+            xbmcplugin.setContent(handle, 'videos')
+            if row in ROW_KEYS + ('frozen', 'probe') and not action and not section:
+                route_name = row
+                _listing(handle, base, row)
+            elif section in sections.SECTION_LABELS and not action and not row:
+                route_name = 'section'
+                _section(handle, base, section)
+            elif action == 'playback-lab' and not row and not section and set(query) == {'action'}:
+                route_name = 'playback-lab'
+                _playback_lab(handle, base)
+            elif action == 'enable-umbrella' and not row and not section and set(query) == {'action'}:
+                route_name = 'provider-setting'
+                if providers.umbrella_available() and xbmcgui.Dialog().yesno(
+                        'Enable Umbrella?', 'Allow manual playback handoff for this Kodi profile?'):
+                    result = provider_prefs.set_umbrella_enabled(True)
+                    _message('Callen Prime CP04', 'Umbrella enabled.' if result else 'Profile scope unavailable.')
+            elif action == 'disable-umbrella' and not row and not section and set(query) == {'action'}:
+                route_name = 'provider-setting'
+                _message('Callen Prime CP04', 'Umbrella disabled.' if provider_prefs.set_umbrella_enabled(False)
+                         else 'Could not change preference for this Kodi profile.')
+            elif action == 'provider-info' and not row and not section and set(query) == {'action'}:
+                route_name = 'provider-info'
+                _message('Provider status', 'Umbrella is the only conditional CP04 handoff. '
+                         'Fen and Seren routes have not passed compatibility checks.')
+            elif action == 'setup' and not row and not section:
+                route_name = 'setup'
+                preset = query.get('preset', [''])[0]
+                success = profile.activate(ADDON_PATH, preset)
+                _message('Callen Prime CP04',
+                         'Demo activated for this Kodi profile.' if success else
+                         'Profile scope ambiguous or unavailable. Neutral demo only. See setup guide.')
+            elif action == 'status' and not row and not section:
+                route_name = 'status'
+                scope = profile.current_scope()
+                snapshot = profile.read_snapshot()
+                status = ('Profile scope: ' + ('verified' if scope else 'unavailable') +
+                          '\nDemo preset: ' + (snapshot['preset'] if snapshot else 'neutral (safe fallback)'))
+                _message('Callen Prime CP04', status)
+            elif action == 'my-list' and not row and not section:
+                route_name = 'my-list'
+                _message('My List is not connected',
+                         'CP04 still uses a fictional demo catalogue. Personal lists and Trakt are not active.')
+            elif action == 'details':
+                route_name = 'details'
+                media_id = query.get('item', [''])[0]
+                item = (rows.find_item(ADDON_PATH, row, media_id) if row in ROW_KEYS + ('frozen', 'probe') and not section
+                        else sections.find_item(ADDON_PATH, section, media_id) if section in sections.SECTION_LABELS and not row
+                        else None)
+                _message('Callen Prime | Title Details (No Playback)', presentation.detail_lines(item))
+            elif not action and not row and not section:
+                _root(handle, base)
+            # Unknown queries intentionally yield an empty successfully closed directory.
     except Exception as exc:
-        # No user information or request arguments in logs.
-        xbmc.log('[Callen Prime CP03] local listing failure: ' + type(exc).__name__, xbmc.LOGWARNING)
+        # No profile paths, user input or selected media identifiers in logs.
+        xbmc.log('[Callen Prime CP04] local action failure: ' + type(exc).__name__, xbmc.LOGWARNING)
     finally:
-        xbmcplugin.endOfDirectory(handle, succeeded=True, cacheToDisc=False)
+        if is_playback:
+            # These are resolvable items, *not* directory listings.
+            item = xbmcgui.ListItem(path=playback_path or '')
+            xbmcplugin.setResolvedUrl(handle, bool(playback_path), item)
+        else:
+            xbmcplugin.endOfDirectory(handle, succeeded=True, cacheToDisc=False)
         duration = (time.monotonic() - started) * 1000.0
-        xbmc.log('[Callen Prime CP03] route=' + route_name + ' local_ms=' + ('%.2f' % duration), xbmc.LOGINFO)
+        xbmc.log('[Callen Prime CP04] route=' + route_name + ' local_ms=' + ('%.2f' % duration), xbmc.LOGINFO)
 
 
 if __name__ == '__main__':
