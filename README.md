@@ -1,43 +1,39 @@
 # Callen Prime Theatre 🎬
 
-**CP02 test build (v0.2.0): five offline Kodi widget rows for a performance experiment.** This is not yet a streaming build. It contains fictional demo titles only and **cannot play movies, access Trakt, use Real-Debrid, or resolve sources**.
+**CP04 v0.4.0 is an experimental Kodi playback bridge**, built for Kodi 21.3 Omega on the Fire TV Stick 4K Max (2nd generation).
 
-Target: Kodi 21.3 Omega / Fire TV Stick 4K Max (2nd Generation). Stock Nimbus is the initial candidate skin, but real-device compatibility remains **unverified**.
+The five CP02/CP03 home widget URLs, fictional Movies/Series/Anime browsing and profile-separated demo snapshots remain intact. Fictional catalogue entries **never play**. There is no background service, automatic source scraper, real Trakt history or dynamic recommendations.
 
-## What is included
+## What's new
 
-- One Kodi plugin, `plugin.video.callenprime`, no service or background job.
-- Five stable routes: `?row=continue`, `?row=new`, `?row=context-a`, `?row=context-b`, `?row=context-c`.
-- Two explicitly selectable *fictional* fixture sets and a neutral fail-safe set.
-- Local poster placeholders; no network activity on widget calls.
-- P0 (`?row=frozen`) / P1 (`?row=probe`) diagnostic routes for comparing a frozen plugin with profile-aware lookup of identical items.
-- Deterministic ZIP build and off-device unit tests.
+1. Open Add-ons → Video add-ons → Callen Prime Theatre (CP04 Prototype) → **Playback Tests**.
+2. Choose **Play a local test video**. Use Kodi's file picker and explicitly approve playback. It accepts only files stored locally on the device.
+3. If you already have **Umbrella 6.7.90** installed and enabled, you may optionally activate it in this Kodi profile for an experimental handoff. Enter a real title, TMDb ID and year (plus season/episode when applicable). Umbrella retains ownership of source selection and playback.
+4. Fen and Seren are not enabled. No credentials, provider packages, third-party streams or full viewing histories are included.
 
-## Get started
+**Status: BUILD-READY / DEVICE HOLD.** Forty-one off-device automated tests passed. Actual installation, local playback, Umbrella handoff, profile switching and navigation timings still require testing on the real Fire Stick.
 
-1. **Back up your existing Kodi configuration** before installing or changing Nimbus widgets. See [the Fire TV guide](docs/FIRETV-DEVICE-TEST.md).
-2. Build via `python scripts/build_zip.py`, or install the supplied `Callen-Prime-Theatre_CP02_v0.2.0-test.zip` into Kodi using *Settings → Add-ons → Install from zip file* (enable Unknown sources only if prompted and only after trusting the file).
-3. Open *Add-ons → Video add-ons → Callen Prime Theatre (CP02 Demo)*. From the **currently active Kodi profile**, choose `Activate ANDY demo in THIS Kodi profile`. Switch Kodi profiles and choose the Dad preset separately. If profile storage is ambiguous, the add-on stays neutral.
-4. In stock Nimbus, set up five widget paths using the exact URLs in [NIMBUS-WIDGET-SETUP.md](docs/NIMBUS-WIDGET-SETUP.md). Configuration is user-initiated; CP02 never edits the skin.
-5. Complete [the device checklist](docs/FIRETV-DEVICE-TEST.md) and [acceptance record](docs/CP02-ACCEPTANCE.md).
+## Install
 
-**Careful:** source tests passing does not prove the Fire Stick ZIP installs successfully or that five widget rows are fast on device. Treat this as an experimental Kodi add-on.
+Back up your Kodi/Nimbus settings, then install the provided Callen-Prime-Theatre_CP04_v0.4.0-test.zip using Kodi Settings → Add-ons → Install from zip file. Keep the CP03 ZIP for rollback.
 
 ## Development
 
-```bash
-python -m unittest discover -s tests -t . -v
-python scripts/build_zip.py
-```
+Run these commands from repository root:
 
-`addon/plugin.video.callenprime/` is the only folder packaged into the installation ZIP. No third-party Kodi add-ons, credentials, user media or copyrighted film art are packaged.
+    python -m unittest discover -s tests -t . -v
+    python scripts/build_zip.py
 
-## Safety and rollback
+The installable ZIP contains only the addon/plugin.video.callenprime subtree. Widget URLs remain:
 
-- Kodi, Nimbus, Umbrella, Fen, Seren and existing authorisations are **not changed** by this plugin.
-- All widget titles contain `CP02 DEMO`. Selecting one opens an explanatory dialog, not playback.
-- Restoring the original widget settings removes Callen Prime from the home screen. Then disable or uninstall the addon.
-- Data is written *only when selecting an activation command*, under the active Kodi profile's addon-data path. Unknown or ambiguous profile scopes fall back to neutral content.
-- The repo is public. Do **not** commit real watch history, Trakt/Real-Debrid tokens, logs containing private URLs or personal Kodi backups.
+- plugin://plugin.video.callenprime/?row=continue
+- plugin://plugin.video.callenprime/?row=new
+- plugin://plugin.video.callenprime/?row=context-a
+- plugin://plugin.video.callenprime/?row=context-b
+- plugin://plugin.video.callenprime/?row=context-c
 
-See [architecture](docs/CP02-ARCHITECTURE.md), [implementation report](docs/CP02-IMPLEMENTATION-REPORT.md), [source baseline](docs/CP01-SOURCE-BASELINE.md) and [MIT license](LICENSE).
+## Evidence
+
+See docs/CP04-WORK-STATUS.md and CP04 device acceptance guide, source compatibility assessment and implementation report. Existing CP02/CP03 documentation remains applicable.
+
+The repository is **public**. Do not commit local media paths, personal viewing history, Kodi backups, Trakt/Real-Debrid tokens, or unredacted provider logs. Project code is MIT. Kodi, Nimbus and provider sources are neither redistributed nor patched here.
