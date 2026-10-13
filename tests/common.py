@@ -42,6 +42,14 @@ class KodiHarness:
         self.logs = []
         self.dialogs = []
         self._original = {}
+        self.resolved = []
+        self.confirmations = []
+        self.browse_results = []
+        self.inputs = []
+        self.selections = []
+        self.provider_version = None
+        self.provider_enabled = False
+        self.window_props = {}
 
     def __enter__(self):
         for name in ('xbmc', 'xbmcgui', 'xbmcplugin', 'xbmcaddon', 'xbmcvfs'):
@@ -54,8 +62,9 @@ class KodiHarness:
         harness = self
 
         class Item:
-            def __init__(self, label):
+            def __init__(self, label="", path=""):
                 self.label = label
+                self.path = path
                 self.properties = {}
                 self.art = {}
                 self.info = {}
@@ -73,11 +82,32 @@ class KodiHarness:
             def ok(self, title, message):
                 harness.dialogs.append((title, message))
 
-        gui.ListItem, gui.Dialog = Item, Dialog
+            def browseSingle(self, *args):
+                return harness.browse_results.pop(0) if harness.browse_results else ''
+
+            def yesno(self, *args):
+                return harness.confirmations.pop(0) if harness.confirmations else False
+
+            def input(self, *args):
+                return harness.inputs.pop(0) if harness.inputs else ''
+
+            def select(self, *args):
+                return harness.selections.pop(0) if harness.selections else -1
+
+        class Window:
+            def __init__(self, identity):
+                self.identity = identity
+            def getProperty(self, key):
+                return harness.window_props.get((self.identity, key), '')
+            def setProperty(self, key, value):
+                harness.window_props[(self.identity, key)] = value
+
+        gui.ListItem, gui.Dialog, gui.Window = Item, Dialog, Window
         plugin = types.ModuleType('xbmcplugin')
         plugin.setContent = lambda handle, content: None
         plugin.addDirectoryItem = lambda handle, url, item, isFolder: self.entries.append((url, item, isFolder))
         plugin.endOfDirectory = lambda handle, **kw: self.ended.append((handle, kw))
+        plugin.setResolvedUrl = lambda handle, succeeded, item: self.resolved.append((handle, succeeded, item.path))
         addon = types.ModuleType('xbmcaddon')
         addon.Addon = lambda: types.SimpleNamespace(getAddonInfo=lambda key: str(ADDON) if key == 'path' else 'plugin.video.callenprime')
         vfs = types.ModuleType('xbmcvfs')
@@ -85,6 +115,7 @@ class KodiHarness:
         vfs.File = FakeVFSFile
         vfs.exists = lambda path: os.path.exists(path)
         vfs.mkdirs = lambda path: (os.makedirs(path, exist_ok=True) or True)
+        vfs.delete = lambda path: (os.unlink(path) or True)
         for name, module in [('xbmc', xbmc), ('xbmcgui', gui), ('xbmcplugin', plugin), ('xbmcaddon', addon), ('xbmcvfs', vfs)]:
             sys.modules[name] = module
         sys.path.insert(0, str(ADDON))
@@ -120,6 +151,12 @@ class KodiHarness:
         if self.bad_rpc:
             return '{'
         method = json.loads(request)['method']
+        if method == 'Addons.GetAddonDetails':
+            addonid = json.loads(request)['params']['addonid']
+            if addonid == 'plugin.video.umbrella' and self.provider_version:
+                return json.dumps({'result': {'addon': {'addonid': addonid, 'version': self.provider_version,
+                    'installed': True, 'enabled': self.provider_enabled}}})
+            return json.dumps({'error': {'code': -32602, 'message': 'Addon not found'}})
         if method == 'Profiles.GetCurrentProfile':
             return json.dumps({'result': {'label': self.active}})
         if method == 'Profiles.GetProfiles':
@@ -130,5 +167,6 @@ class KodiHarness:
     def call(self, query=''):
         self.entries.clear()
         self.ended.clear()
+        self.resolved.clear()
         self.app.run(['plugin://plugin.video.callenprime/', '7', query])
         return self.entries[:]
