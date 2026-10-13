@@ -6,9 +6,9 @@ ROW_KEYS = ('continue', 'new', 'context-a', 'context-b', 'context-c')
 ROW_LABELS = {
     'continue': 'Continue Watching',
     'new': "What's New",
-    'context-a': 'Based on Your Watching',
-    'context-b': 'Fresh for You',
-    'context-c': 'Discover Something Different',
+    'context-a': 'For You',
+    'context-b': 'Worth Exploring',
+    'context-c': 'Something Different',
 }
 LIMIT = 8
 
@@ -36,6 +36,15 @@ def load_catalog(addon_path):
             raise ValueError('Unsupported media type')
         if not isinstance(item.get('title'), str) or len(item['title']) > 80:
             raise ValueError('Invalid fixture title')
+        if item.get('media_kind', 'series' if item['media_type'] == 'episode' else 'movie') not in ('movie', 'series', 'anime'):
+            raise ValueError('Invalid fixture media kind')
+        if item.get('media_type') == 'movie' and item.get('media_kind', 'movie') != 'movie':
+            raise ValueError('Invalid media kind for movie')
+        if item.get('media_type') == 'episode' and item.get('media_kind', 'series') not in ('series', 'anime'):
+            raise ValueError('Invalid media kind for episode')
+        duration = item.get('runtime_minutes')
+        if duration is not None and (type(duration) is not int or duration < 1 or duration > 240):
+            raise ValueError('Invalid demo runtime')
         if item.get('art') not in ('poster-a.png', 'poster-b.png', 'poster-c.png'):
             raise ValueError('Invalid local artwork')
         catalogue[media_id] = item

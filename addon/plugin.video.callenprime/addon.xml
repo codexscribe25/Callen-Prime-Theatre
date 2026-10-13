@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.callenprime" name="Callen Prime Theatre (CP02 Demo)" version="0.2.0" provider-name="Callen Prime Theatre">
+<addon id="plugin.video.callenprime" name="Callen Prime Theatre (CP03 Demo)" version="0.3.0" provider-name="Callen Prime Theatre">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
   </requires>
@@ -7,8 +7,8 @@
     <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en_GB">Offline five-row home screen performance demonstrator.</summary>
-    <description lang="en_GB">CP02 demo: five stable widget routes, local synthetic content, profile-scoped activation and no playback. No network access.</description>
+    <summary lang="en_GB">Offline five-row theatre navigation demonstrator.</summary>
+    <description lang="en_GB">CP03 demo: five stable widget routes, local synthetic metadata, safe details and browse sections. No playback or network.</description>
     <disclaimer lang="en_GB">All media and progress shown are fictional demonstration data. This add-on does not play video.</disclaimer>
     <platform>all</platform>
     <license>MIT</license>

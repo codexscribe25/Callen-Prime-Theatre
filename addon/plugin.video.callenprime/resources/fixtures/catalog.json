@@ -5,7 +5,9 @@
     "year": 2024,
     "media_type": "movie",
     "plot": "A lighthouse keeper maps a coast that changes at dawn.",
-    "art": "poster-a.png"
+    "art": "poster-a.png",
+    "media_kind": "movie",
+    "runtime_minutes": 104
   },
   {
     "id": "demo:movie:ember-road",
@@ -13,7 +15,9 @@
     "year": 2023,
     "media_type": "movie",
     "plot": "Two travellers cross a deserted volcanic highway.",
-    "art": "poster-b.png"
+    "art": "poster-b.png",
+    "media_kind": "movie",
+    "runtime_minutes": 92
   },
   {
     "id": "demo:movie:glass-orchard",
@@ -21,7 +25,8 @@
     "year": 2025,
     "media_type": "movie",
     "plot": "An orchardist grows fruit in the ruins of a glass city.",
-    "art": "poster-c.png"
+    "art": "poster-c.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:silver-mile",
@@ -29,7 +34,8 @@
     "year": 2022,
     "media_type": "movie",
     "plot": "A driver follows a disused railway through the hills.",
-    "art": "poster-a.png"
+    "art": "poster-a.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:stone-comet",
@@ -37,7 +43,9 @@
     "year": 2026,
     "media_type": "movie",
     "plot": "A quiet astronomer discovers a satellite out of time.",
-    "art": "poster-b.png"
+    "art": "poster-b.png",
+    "media_kind": "movie",
+    "runtime_minutes": 126
   },
   {
     "id": "demo:movie:hidden-current",
@@ -45,7 +53,8 @@
     "year": 2024,
     "media_type": "movie",
     "plot": "A diver explores strange tidal machinery.",
-    "art": "poster-c.png"
+    "art": "poster-c.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:winter-circuit",
@@ -53,7 +62,8 @@
     "year": 2021,
     "media_type": "movie",
     "plot": "Mechanics rebuild a remote mountain observatory.",
-    "art": "poster-a.png"
+    "art": "poster-a.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:marble-sky",
@@ -61,7 +71,9 @@
     "year": 2026,
     "media_type": "movie",
     "plot": "An artist searches for a vanished desert mural.",
-    "art": "poster-b.png"
+    "art": "poster-b.png",
+    "media_kind": "movie",
+    "runtime_minutes": 111
   },
   {
     "id": "demo:movie:northward",
@@ -69,7 +81,9 @@
     "year": 2025,
     "media_type": "movie",
     "plot": "A retired courier makes one final delivery.",
-    "art": "poster-c.png"
+    "art": "poster-c.png",
+    "media_kind": "movie",
+    "runtime_minutes": 98
   },
   {
     "id": "demo:movie:midnight-workshop",
@@ -77,7 +91,8 @@
     "year": 2023,
     "media_type": "movie",
     "plot": "An eccentric community restores a cinema.",
-    "art": "poster-a.png"
+    "art": "poster-a.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:amber-clock",
@@ -85,7 +100,8 @@
     "year": 2024,
     "media_type": "movie",
     "plot": "An antiques dealer finds a broken clock with a story.",
-    "art": "poster-b.png"
+    "art": "poster-b.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:silent-flotilla",
@@ -93,7 +109,8 @@
     "year": 2025,
     "media_type": "movie",
     "plot": "Fishing crews make a startling discovery at sea.",
-    "art": "poster-c.png"
+    "art": "poster-c.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:quiet-estuary",
@@ -101,7 +118,8 @@
     "year": 2026,
     "media_type": "movie",
     "plot": "An amateur historian studies a forgotten waterfront.",
-    "art": "poster-a.png"
+    "art": "poster-a.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:dust-and-rain",
@@ -109,7 +127,8 @@
     "year": 2022,
     "media_type": "movie",
     "plot": "Two siblings inherit an unusual country house.",
-    "art": "poster-b.png"
+    "art": "poster-b.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:last-freight",
@@ -117,7 +136,8 @@
     "year": 2025,
     "media_type": "movie",
     "plot": "A train driver navigates a winter storm.",
-    "art": "poster-c.png"
+    "art": "poster-c.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:movie:blue-depot",
@@ -125,7 +145,8 @@
     "year": 2024,
     "media_type": "movie",
     "plot": "Friends revive a closed railway museum.",
-    "art": "poster-a.png"
+    "art": "poster-a.png",
+    "media_kind": "movie"
   },
   {
     "id": "demo:episode:iron-lantern",
@@ -133,7 +154,9 @@
     "year": 2026,
     "media_type": "episode",
     "plot": "A mountain town prepares for the annual lantern festival.",
-    "art": "poster-b.png"
+    "art": "poster-b.png",
+    "media_kind": "series",
+    "runtime_minutes": 48
   },
   {
     "id": "demo:episode:tidal-hours",
@@ -141,7 +164,9 @@
     "year": 2025,
     "media_type": "episode",
     "plot": "A marine biologist discovers an unexpected migration.",
-    "art": "poster-c.png"
+    "art": "poster-c.png",
+    "media_kind": "series",
+    "runtime_minutes": 42
   },
   {
     "id": "demo:episode:open-gates",
@@ -149,7 +174,9 @@
     "year": 2025,
     "media_type": "episode",
     "plot": "The station crew prepares a difficult rescue.",
-    "art": "poster-a.png"
+    "art": "poster-a.png",
+    "media_kind": "series",
+    "runtime_minutes": 51
   },
   {
     "id": "demo:episode:paper-dragons",
@@ -157,6 +184,8 @@
     "year": 2026,
     "media_type": "episode",
     "plot": "Apprentices compete in a fictional animation tournament.",
-    "art": "poster-b.png"
+    "art": "poster-b.png",
+    "media_kind": "anime",
+    "runtime_minutes": 24
   }
 ]

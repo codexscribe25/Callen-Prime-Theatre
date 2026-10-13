@@ -14,7 +14,7 @@ class RouteTests(unittest.TestCase):
                 ids = []
                 for url, item, folder in items:
                     self.assertTrue(folder)
-                    self.assertIn('CP02 DEMO', item.label)
+                    self.assertIn('CP03 DEMO', item.label)
                     self.assertIn('demo:', unquote(url))
                     self.assertEqual(item.properties['IsPlayable'], 'false')
                     self.assertEqual(item.properties['CallenPrime.Demo'], 'true')
