@@ -1,4 +1,4 @@
-"""CP03: five offline, non-playing Kodi rows and a safe theatre demo shell."""
+"""CP04: stable offline widgets plus explicit, guarded Kodi playback tests."""
 import os
 import sys
 import time
@@ -9,7 +9,7 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
-from resources.lib import fixtures, presentation, profile, rows, sections
+from resources.lib import fixtures, playback, presentation, profile, provider_prefs, providers, rows, sections
 
 ADDON = xbmcaddon.Addon()
 ADDON_PATH = ADDON.getAddonInfo('path')
@@ -20,9 +20,9 @@ def _link(base, **query):
     return base + '?' + urlencode(query)
 
 
-def _entry(handle, url, label, is_folder=True, art=None, info=None, media_kind=None):
+def _entry(handle, url, label, is_folder=True, art=None, info=None, media_kind=None, playable=False):
     item = xbmcgui.ListItem(label=label)
-    item.setProperty('IsPlayable', 'false')
+    item.setProperty('IsPlayable', 'true' if playable else 'false')
     item.setProperty('CallenPrime.Demo', 'true')
     item.setProperty('CallenPrime.LanguageStatus', 'unknown')
     if media_kind:
@@ -38,7 +38,8 @@ def _root(handle, base):
     # Each is a safe, ordinary Kodi folder. Stock Nimbus owns the real Home UI.
     for section, label in sections.SECTION_LABELS.items():
         _entry(handle, _link(base, section=section), label + ' (fictional demo)')
-    _entry(handle, _link(base, action='my-list'), 'My List (not connected in CP03)')
+    _entry(handle, _link(base, action='my-list'), 'My List (not connected in CP04)')
+    _entry(handle, _link(base, action='playback-lab'), 'Playback Tests (CP04)')
     _entry(handle, _link(base, action='setup', preset='andy'), 'Activate ANDY demo in THIS Kodi profile')
     _entry(handle, _link(base, action='setup', preset='dad'), 'Activate DAD demo in THIS Kodi profile')
     _entry(handle, _link(base, action='status'), 'Check current profile isolation')
@@ -47,6 +48,63 @@ def _root(handle, base):
     _entry(handle, _link(base, row='frozen'), '[DIAGNOSTIC P0] Frozen Python widget')
     _entry(handle, _link(base, row='probe'), '[DIAGNOSTIC P1] Profile-aware comparison')
 
+
+
+def _playback_lab(handle, base):
+    """The only place that probes provider installation, and only on request."""
+    _entry(handle, _link(base, action='play-local'), 'Play a local test video',
+           is_folder=False, playable=True)
+    state = providers.installed_provider(providers.UMBRELLA_ID)
+    if not state:
+        _entry(handle, _link(base, action='provider-info'), 'Umbrella not installed or disabled')
+    elif state['version'] != providers.UMBRELLA_VERIFIED_VERSION:
+        _entry(handle, _link(base, action='provider-info'),
+               'Umbrella version unsupported for CP04 (no automatic handoff)')
+    elif provider_prefs.is_umbrella_enabled():
+        _entry(handle, _link(base, action='play-umbrella'),
+               'Play a title using Umbrella (manual media ID)', is_folder=False, playable=True)
+        _entry(handle, _link(base, action='disable-umbrella'), 'Disable Umbrella in Callen Prime')
+    else:
+        _entry(handle, _link(base, action='enable-umbrella'),
+               'Enable Umbrella for this Kodi profile (opt-in)')
+    _entry(handle, _link(base, action='provider-info'), 'Fen and Seren: not enabled in CP04')
+
+
+def _launch_guard():
+    """Deter double presses without polling or holding a global player monitor."""
+    scope = profile.current_scope()
+    if scope is None:
+        return False
+    window = xbmcgui.Window(10000)
+    key = 'CallenPrime.CP04.Launch.' + scope[2][:24]
+    now = time.monotonic()
+    try:
+        last = float(window.getProperty(key) or '0')
+        if 0 <= now - last < 2.5:
+            return False
+        window.setProperty(key, str(now))
+        return True
+    except (ValueError, TypeError, AttributeError):
+        return False
+
+
+def _playback_target(action):
+    dialog = xbmcgui.Dialog()
+    if action == 'play-local':
+        chosen = playback.select_local_video(dialog)
+        return chosen if chosen and _launch_guard() else None
+    if action == 'play-umbrella':
+        if not provider_prefs.is_umbrella_enabled() or not providers.umbrella_available():
+            dialog.ok('Provider unavailable',
+                      'Enable the verified Umbrella version for this Kodi profile in Playback Tests.')
+            return None
+        result = providers.choose_umbrella_target(dialog)
+        if result is None:
+            return None
+        if not _launch_guard():
+            return None
+        return result
+    return None
 
 def _render_items(handle, base, items, *, row=None, section=None):
     # Keep order unchanged so the native Kodi widget can preserve its focus.
