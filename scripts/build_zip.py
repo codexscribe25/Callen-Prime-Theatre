@@ -8,7 +8,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 ADDON = ROOT / 'addon' / 'plugin.video.callenprime'
-DEFAULT_OUTPUT = ROOT / 'dist' / 'Callen-Prime-Theatre_CP03_v0.3.0-test.zip'
+DEFAULT_OUTPUT = ROOT / 'dist' / 'Callen-Prime-Theatre_CP04_v0.4.0-test.zip'
 FIXED_TIME = (2020, 1, 1, 0, 0, 0)
 
 
