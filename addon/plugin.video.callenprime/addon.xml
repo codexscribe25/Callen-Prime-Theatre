@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.callenprime" name="Callen Prime Theatre (CP03 Demo)" version="0.3.0" provider-name="Callen Prime Theatre">
+<addon id="plugin.video.callenprime" name="Callen Prime Theatre (CP04 Prototype)" version="0.4.0" provider-name="Callen Prime Theatre">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
   </requires>
@@ -7,9 +7,9 @@
     <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en_GB">Offline five-row theatre navigation demonstrator.</summary>
-    <description lang="en_GB">CP03 demo: five stable widget routes, local synthetic metadata, safe details and browse sections. No playback or network.</description>
-    <disclaimer lang="en_GB">All media and progress shown are fictional demonstration data. This add-on does not play video.</disclaimer>
+    <summary lang="en_GB">Offline five-row theatre, optional guarded local playback and Umbrella handoff prototype.</summary>
+    <description lang="en_GB">CP04 prototype: unchanged offline widget routes, safe details, explicit local-file playback and opt-in provider handoff. No background network or service.</description>
+    <disclaimer lang="en_GB">All catalogue media and progress are fictional demonstrations and cannot play. Local testing requires a user-selected real file; provider handoff requires manual title identifiers and opt-in.</disclaimer>
     <platform>all</platform>
     <license>MIT</license>
     <source>https://github.com/codexscribe25/Callen-Prime-Theatre</source>
