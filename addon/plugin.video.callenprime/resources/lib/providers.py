@@ -74,7 +74,7 @@ def validate_episode_num(value, start):
 def umbrella_url(kind, title, tmdb, year, season=None, episode=None):
     """Construct exactly one whitelisted URL from manually supplied catalogue metadata.
 
-    This matches Umbrella 6.7.90 router.py action=play_Item field names.
+    This matches Umbrella 6.7.90 router.py `action=play_Item` field names.
     Actual nested resolution is DEVICE-PENDING until witnessed on Kodi 21.3.
     """
     if kind not in ('movie', 'episode'):
