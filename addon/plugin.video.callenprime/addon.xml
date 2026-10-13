@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.callenprime" name="Callen Prime Theatre (CP04 Prototype)" version="0.4.0" provider-name="Callen Prime Theatre">
+<addon id="plugin.video.callenprime" name="Callen Prime Theatre" version="0.5.0" provider-name="Callen Prime Theatre">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
   </requires>
   <extension point="xbmc.python.pluginsource" library="default.py">
     <provides>video</provides>
   </extension>
+  <extension point="xbmc.python.script" library="theatre.py" />
   <extension point="xbmc.addon.metadata">
-    <summary lang="en_GB">Offline five-row theatre, optional guarded local playback and Umbrella handoff prototype.</summary>
-    <description lang="en_GB">CP04 prototype: unchanged offline widget routes, safe details, explicit local-file playback and opt-in provider handoff. No background network or service.</description>
-    <disclaimer lang="en_GB">All catalogue media and progress are fictional demonstrations and cannot play. Local testing requires a user-selected real file; provider handoff requires manual title identifiers and opt-in.</disclaimer>
+    <summary lang="en_GB">Full-screen cinema home, Kodi library, responsive film and series rows, and existing source access.</summary>
+    <description lang="en_GB">A full-screen Kodi-native home theatre with artwork rows, Movies, Series, Anime, search, personal lists, play and source browsing. Built on the existing video add-on; requires no skin fork or background service.</description>
+    <disclaimer lang="en_GB">The legacy CP04 fixture catalogue is fictional. The new theatre reads genuine entries only from your Kodi library and existing installed sources. Trakt direct login and automatic English-dub verification are not provided.</disclaimer>
     <platform>all</platform>
     <license>MIT</license>
     <source>https://github.com/codexscribe25/Callen-Prime-Theatre</source>
+    <assets><icon>resources/icon.png</icon><fanart>resources/fanart.jpg</fanart></assets>
   </extension>
 </addon>

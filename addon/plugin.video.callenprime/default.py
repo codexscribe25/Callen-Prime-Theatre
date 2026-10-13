@@ -1,4 +1,4 @@
-"""CP04: stable offline widgets plus explicit, guarded Kodi playback tests."""
+"""Callen Prime: full-screen theatre launch, plus CP02-04 legacy test routes."""
 import os
 import sys
 import time
@@ -35,7 +35,8 @@ def _entry(handle, url, label, is_folder=True, art=None, info=None, media_kind=N
 
 
 def _root(handle, base):
-    # Each is a safe, ordinary Kodi folder. Stock Nimbus owns the real Home UI.
+    # Primary entry launches the real full-screen theatre; legacy tests follow.
+    _entry(handle, _link(base, action="launch-theatre"), "OPEN CALLEN PRIME THEATRE", is_folder=False)
     for section, label in sections.SECTION_LABELS.items():
         _entry(handle, _link(base, section=section), label + ' (fictional demo)')
     _entry(handle, _link(base, action='my-list'), 'My List (not connected in CP04)')
@@ -157,7 +158,12 @@ def run(argv=None):
                 playback_path = _playback_target(action)
         else:
             xbmcplugin.setContent(handle, 'videos')
-            if row in ROW_KEYS + ('frozen', 'probe') and not action and not section:
+            if action == 'launch-theatre' and not row and not section and set(query) == {'action'}:
+                route_name = 'launch-theatre'
+                # Script runs after this lightweight plugin invocation; the UI
+                # does not depend on skin paths, widgets, or Nimbus XML editing.
+                xbmc.executebuiltin('RunScript(' + os.path.join(ADDON_PATH, 'theatre.py') + ')')
+            elif row in ROW_KEYS + ('frozen', 'probe') and not action and not section:
                 route_name = row
                 _listing(handle, base, row)
             elif section in sections.SECTION_LABELS and not action and not row:
