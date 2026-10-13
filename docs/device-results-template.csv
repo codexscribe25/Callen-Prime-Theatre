@@ -1,0 +1,7 @@
+configuration,trial,operation,duration_ms,network,cache_state,notes
+B0,,warm_home_return,,online,warm,
+B1,,warm_home_return,,online,warm,
+B2,,warm_home_return,,online,warm,
+B3,,warm_home_return,,online,warm,
+P0,,plugin_local_ms,,offline,warm,
+P1,,plugin_local_ms,,offline,warm,
