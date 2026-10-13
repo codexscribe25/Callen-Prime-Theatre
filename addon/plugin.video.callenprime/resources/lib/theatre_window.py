@@ -262,7 +262,7 @@ class TheatreWindow(xbmcgui.WindowXMLDialog):
         elif selected == 4:
             xbmcgui.Dialog().ok('Launch directly', 'Add Callen Prime Theatre to Kodi Favourites, then pin the favourite on your skin Home. Nothing will change your Kodi skin automatically.')
         elif selected == 5:
-            xbmcgui.Dialog().ok('Callen Prime Theatre', 'Theatre Build 0.5.0 • fullscreen Kodi-native interface. Real Kodi library content, local recommendations, profile watchlists and your installed playback sources. Fire Stick testing pending.')
+            xbmcgui.Dialog().ok('Callen Prime Theatre', 'Theatre Build 0.5.1 • fullscreen Kodi-native interface. Real Kodi library content, local recommendations, profile watchlists and your installed playback sources. Fire Stick testing pending.')
 
     def onClick(self, controlId):
         if controlId in TABS:

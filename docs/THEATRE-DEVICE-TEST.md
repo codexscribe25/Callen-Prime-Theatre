@@ -1,4 +1,4 @@
-# Theatre 0.5.0 | Fire Stick first-run acceptance
+# Theatre 0.5.1 | Fire Stick first-run acceptance
 
 **Device:** Fire TV Stick 4K Max (2nd generation), Kodi 21.3 Omega
 
@@ -6,7 +6,7 @@
 
 ## First-run in five minutes
 
-1. Install the v0.5.0 ZIP and open Video add-ons → Callen Prime Theatre.
+1. Install the v0.5.1 ZIP and open Video add-ons → Callen Prime Theatre.
 2. Select the FIRST item: **OPEN CALLEN PRIME THEATRE**. You should leave the ordinary directory and see a full-screen dark theatre with CALLEN PRIME heading, navigation and two horizontal rows. If it stays a file list, report that exact behaviour; it is an installation/launcher blocker.
 3. Use Left/Right on a poster row and Up/Down between rows. At the bottom row, Down should reveal the next two rows if more exist. Back should return to Kodi.
 4. Select Movies / Series / Anime / My List / Search / Sources on the top navigation. Observe that the layout remains consistent and no Kodi skin reload occurs.

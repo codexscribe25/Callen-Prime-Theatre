@@ -1,6 +1,6 @@
 # CALLEN PRIME THEATRE 🎬
 
-**Theatre Build 0.5.0** | A fullscreen, Kodi-native home theatre for Fire TV, built on the earlier CP02–CP04 plugin.
+**Theatre Build 0.5.1** | A fullscreen, Kodi-native home theatre for Fire TV, built on the earlier CP02–CP04 plugin.
 
 This build is fundamentally different from the earlier text-based test add-on. Choose **OPEN CALLEN PRIME THEATRE** and a custom full-screen interface opens with poster rows, featured artwork, film/series/anime sections, My List, Search, details and playback. It does **not** require you to switch Kodi skins or rebuild your streaming setup.
 
@@ -9,7 +9,7 @@ This build is fundamentally different from the earlier text-based test add-on. C
 ## Install on your Fire TV Stick 4K Max (2nd Gen)
 
 1. Keep your current Kodi skin and existing add-ons as they are. If this is your main Kodi setup, first back up its data or at least take a screenshot of your settings. You do **not** need a fresh Kodi install.
-2. Copy `Callen-Prime-Theatre_Theatre_v0.5.0-test.zip` to your Fire Stick (for example, Download). **Do not unzip**.
+2. Copy `Callen-Prime-Theatre_Theatre_v0.5.1-test.zip` to your Fire Stick (for example, Download). **Do not unzip**.
 3. In **Kodi → Settings → Add-ons → Install from zip file**, select the ZIP. This upgrades the previous `plugin.video.callenprime` add-on in place.
 4. Open **Kodi → Add-ons → Video add-ons → Callen Prime Theatre**.
 5. **Select the first item, `OPEN CALLEN PRIME THEATRE`.** This is the important difference: you should see the Callen Prime full-screen interface, **not** the directory of the older prototype.

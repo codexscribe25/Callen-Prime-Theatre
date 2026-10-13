@@ -36,7 +36,7 @@ def _entry(handle, url, label, is_folder=True, art=None, info=None, media_kind=N
 
 def _root(handle, base):
     # Primary entry launches the real full-screen theatre; legacy tests follow.
-    _entry(handle, _link(base, action="launch-theatre"), "OPEN CALLEN PRIME THEATRE", is_folder=False)
+    _entry(handle, _link(base, action="launch-theatre"), "OPEN CALLEN PRIME THEATRE", is_folder=True)
     for section, label in sections.SECTION_LABELS.items():
         _entry(handle, _link(base, section=section), label + ' (fictional demo)')
     _entry(handle, _link(base, action='my-list'), 'My List (not connected in CP04)')

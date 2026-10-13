@@ -1,4 +1,4 @@
-# Callen Prime Theatre Build v0.5.0 | Engineering record
+# Callen Prime Theatre Build v0.5.1 | Engineering record
 
 **Source parent:** CP04 `cp04/playback-bridge`, commit `2412b939` as reported in prior release session. No direct Kodi installation was observed in the build environment.
 

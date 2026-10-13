@@ -26,7 +26,7 @@ class TheatreProductTests(unittest.TestCase):
 
     def test_manifest_retains_original_plugin_and_adds_theatre_script(self):
         manifest = ET.parse(ADDON/'addon.xml').getroot()
-        self.assertEqual(manifest.attrib['version'], '0.5.0')
+        self.assertEqual(manifest.attrib['version'], '0.5.1')
         ext = {x.attrib['point']:x for x in manifest.findall('extension')}
         self.assertEqual(ext['xbmc.python.pluginsource'].attrib['library'],'default.py')
         self.assertEqual(ext['xbmc.python.script'].attrib['library'],'theatre.py')
@@ -36,9 +36,19 @@ class TheatreProductTests(unittest.TestCase):
         with KodiHarness() as k:
             entries = k.call('')
             self.assertEqual(entries[0][1].label,'OPEN CALLEN PRIME THEATRE')
+            self.assertTrue(entries[0][2])  # Kodi must invoke this as a directory route
             self.assertEqual(entries[0][1].properties['IsPlayable'],'false')
             self.assertIn('action=launch-theatre', entries[0][0])
             self.assertFalse(k.resolved)
+            # Directory selection launches the full-screen script, not Kodi's
+            # player resolver; this was a key native-navigation correction.
+            import xbmc
+            called=[]
+            xbmc.executebuiltin = called.append
+            k.call('?action=launch-theatre')
+            self.assertEqual(len(called), 1)
+            self.assertIn('RunScript(', called[0])
+            self.assertIn('theatre.py', called[0])
 
     def test_real_media_normalisation(self):
         with KodiHarness():
